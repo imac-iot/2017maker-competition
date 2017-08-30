@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -14,7 +16,7 @@
   <ul class="nav nav-tabs" style="margin-top:30px;">
     <li class="active"><a data-toggle="tab" href="#home">使用者管理</a></li>
     <li><a data-toggle="tab" href="#menu1">品牌資訊</a></li>
-    <li><a data-toggle="tab" href="#menu2">其他</a></li>
+    <li><a data-toggle="tab" href="#menu2">反饋</a></li>
   </ul>
   <div class="tab-content">
     <div id="home" class="tab-pane fade in active">
@@ -42,15 +44,40 @@
     </table>
     </div>
     <div id="menu1" class="tab-pane fade">
-      <h3>Menu 1</h3>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+      <div class="row">
+          <div class="col-md-6 col-sm-12 col-xs-12"><canvas id="doughnut-chart" height="250"></canvas></div>
+        <div class="col-md-6 col-sm-12 col-xs-12"></div>
+       
+      </div>
     </div>
     <div id="menu2" class="tab-pane fade">
-      <h3>Menu 2</h3>
       <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
     </div>
   </div>
 </div>
-
 </body>
+<script>
+
+new Chart(document.getElementById("doughnut-chart"), {
+  type: 'doughnut',
+  data: {
+    labels: ["品牌A", "品牌B", "品牌C"],
+    datasets: [
+      {
+        label: "Population (millions)",
+        backgroundColor: ["#F38181", "#FCE38A","#3FC1C9"],
+        data: [2478,5267,734]
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      // text: 'Predicted world population (millions) in 2017'
+    }
+  }
+});
+</script>
+
 </html>
