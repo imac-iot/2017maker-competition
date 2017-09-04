@@ -57,9 +57,11 @@ var getApi = function getApi (done){
         }); 
         done();
 }
-function consoleRequest(){   
+function consoleRequest(){  
+    brandName = JSON.stringify(brandName); 
     console.log(brandName);
-    console.log(num);
+    console.log(typeof(brandName));
+    
 }
    
 

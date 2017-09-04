@@ -1,10 +1,8 @@
 
 var request = require('request');
-
 var data = {
   userID:""
 }
-
 var brandName = new Array();
 var num = new Array() ;
 request.get('http://127.0.0.1:3000/popular', {form:data},function optionalCallback(err, httpResponse, body) {

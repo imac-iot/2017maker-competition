@@ -28,7 +28,6 @@
     td{
       color:#979797;
     }
-
   </style>
 </head>
 <body>
@@ -93,21 +92,18 @@
 </div>
 </body>
 <script>
-var brand =[ {{brand}} ];
+//var brand =[ {{brand}}];
 var num = [{{ brandNum}}];
-
 new Chart(document.getElementById("doughnut-chart"), {
   type: 'doughnut',
   data: {
-    
     datasets: [
       {
-        label: "Population (millions)",
         backgroundColor: ["#F38181","#FCE38A"],
-        data: [ 2, 1 ]
+        data: num,
       }
     ],
-    labels: [ 'asd', '2' ]
+    labels:['a','b']
   },
   options: {
     title: {
