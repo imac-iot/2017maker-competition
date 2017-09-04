@@ -52,18 +52,14 @@ var getApi = function getApi (done){
           for(key in body){
               brandName[key] = body[key]["brand"];
               num[key] = body[key]["count"];
-            //   console.log('brandName >'+ brandName[key]);
-            //   console.log('num > '+ num[key]);
           }
         consoleRequest();
         }); 
         done();
 }
-function consoleRequest(){
-   brand= brandName.toArray();
-   console.log('consoleRequest');
-   console.log(brandName);
-   console.log(num);
+function consoleRequest(){   
+    console.log(brandName);
+    console.log(num);
 }
    
 
@@ -80,7 +76,7 @@ var tableNum = new Array();
 var showUserInfo = function showUserInfo(done) {
     var collection = db.collection('user');
     collection.find({}).sort( { setTime: -1 } ).toArray(function (err, data) {
-        console.log(data);
+       // console.log(data);
         for (var i = 0; i < data.length; i++) {
             userId[i] = data[i]._id.toString(),
             userName[i] = data[i].userName,
@@ -91,8 +87,6 @@ var showUserInfo = function showUserInfo(done) {
       done();
      });
 };
-
-
 
 router.get('/',function * (){
     this.body = yield render("index");
