@@ -53,12 +53,9 @@ var getApi = function getApi (done){
               brandName[key] = popular[key]["brand"];
               num[key] = popular[key]["count"];
           }
-        consoleRequest();
-        }); 
+     
         done();
-}
-function consoleRequest(){ 
-    console.log(brandName);
+        });        
 }
    
 
