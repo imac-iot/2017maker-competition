@@ -9,28 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script>
-    var brand =[ {{ brand }} ];
-    var num = [ {{ brandNum}} ];
-    new Chart(document.getElementById("doughnut-chart"), {
-      type: 'doughnut',
-      data: {
-        datasets: [
-          {
-            backgroundColor: ["#F38181","#FCE38A"],
-            data: num,
-          }
-        ],
-        labels:brand
-      },
-      options: {
-        title: {
-          display: true,
-          // text: 'Predicted world population (millions) in 2017'
-        }
-      }
-    });
-    </script>
+
   <style>
     .hColor{
       color: #F38181;
@@ -112,6 +91,29 @@
   </div>
 </div>
 </body>
-
+<script>
+  var brand =["{{ brand.join('","') }}"];
+  console.log(brand);
+  // console.log('["'+brand.join('"22"')+'"]');
+  var num = [ {{ brandNum}} ];
+  new Chart(document.getElementById("doughnut-chart"), {
+    type: 'doughnut',
+    data: {
+      datasets: [
+        {
+          backgroundColor: ["#F38181","#FCE38A"],
+          data: num,
+        }
+      ],
+      labels:brand
+    },
+    options: {
+      title: {
+        display: true,
+        // text: 'Predicted world population (millions) in 2017'
+      }
+    }
+  });
+  </script>
 
 </html>
