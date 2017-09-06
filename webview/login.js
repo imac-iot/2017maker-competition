@@ -9,6 +9,8 @@ const session=require('koa-session');
 const static = require('koa-static')
 const path = require('path')
 const staticPath = './img/'
+
+var request = require('request');
 app.use(static(
     path.join( __dirname,staticPath)
   ))
@@ -35,6 +37,32 @@ var render = views(__dirname, {
 });
 app.use(bodyparser());
 
+// Api
+var brandName = new Array();
+var num = new Array() ;
+var data = {userID:"" }
+
+var getApi = function getApi (done){
+    request.get('http://127.0.0.1:3000/popular', {form:data},function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            return console.error(err);
+          }
+          //console.log('body', body);
+          var popular = JSON.parse(body);
+          for(key in popular){
+              brandName[key] = popular[key]["brand"];
+              num[key] = popular[key]["count"];
+          }
+        consoleRequest();
+        }); 
+        done();
+}
+function consoleRequest(){ 
+    console.log(brandName);
+}
+   
+
+// var define mongo showUser collections 
 var login;
 var user,pwd;
 var userId = new Array();
@@ -43,30 +71,29 @@ var userAccount = new Array();
 var time = new Array();
 var tableNum = new Array();
 
-//SHOW USER DATA FUNC
+//show USER DATA FUNC
 var showUserInfo = function showUserInfo(done) {
     var collection = db.collection('user');
-    collection.find({}).sort( { insertTime: -1 } ).toArray(function (err, data) {
-        //onsole.log(data);
+    collection.find({}).sort( { setTime: -1 } ).toArray(function (err, data) {
+       // console.log(data);
         for (var i = 0; i < data.length; i++) {
             userId[i] = data[i]._id.toString(),
             userName[i] = data[i].userName,
             userAccount[i] = data[i].account,
-            time[i] = data[i].insertTime
+            time[i] = data[i].setTime,
             tableNum[i] = i;
         }
       done();
      });
 };
 
-
 router.get('/',function * (){
     this.body = yield render("index");
 });
 router.get('/admin',function * (){
-    //console.log('>>>>>>>>>>>>>>>>>>'+this.session.user);
     if (this.session.user ) {
-        console.log('admin')
+        console.log('login....');
+        yield getApi;
         yield showUserInfo;
         this.body = yield render("admin", {
             // for html's var
@@ -75,11 +102,13 @@ router.get('/admin',function * (){
             "userAccount":userAccount,
             "time":time,
             "num": tableNum,
+            "brand":brandName,
+            "brandNum":num
         });
      }
     else {
         this.redirect("/");
-     }    
+     }   
 });
 
 router.post('/',function * (){
@@ -97,16 +126,9 @@ router.post('/',function * (){
        this.redirect("/");
    }
 
-
-    // console.log('user:'+user+", password:"+ psw);
-    // if(user =="admin" && psw =="admin"){
-    //     this.redirect('/admin');
-    // }else{
-    //     console.log('password error!');
-    // }
 });
 
 app.use(router.middleware());
-app.listen(3000,function(){
-    console.log('listening port 3000');
+app.listen(5500,function(){
+    console.log('listening port 5500');
 });
