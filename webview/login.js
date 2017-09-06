@@ -48,20 +48,17 @@ var getApi = function getApi (done){
             return console.error(err);
           }
           //console.log('body', body);
-          body = JSON.parse(body);
-          for(key in body){
-              brandName[key] = body[key]["brand"];
-              num[key] = body[key]["count"];
+          var popular = JSON.parse(body);
+          for(key in popular){
+              brandName[key] = popular[key]["brand"];
+              num[key] = popular[key]["count"];
           }
         consoleRequest();
         }); 
         done();
 }
-function consoleRequest(){  
-    brandName = JSON.stringify(brandName); 
+function consoleRequest(){ 
     console.log(brandName);
-    console.log(typeof(brandName));
-    
 }
    
 
