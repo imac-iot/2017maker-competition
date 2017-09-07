@@ -79,10 +79,11 @@ function * createDevice(){
   var request = this.request.body;
   var userID = request.userID;
   var deviceID = request.deviceID;
+  var deviceName = request.deviceName;
   var collection = db.collection('device');
   var findDev = yield collection.findOne({deviceID:deviceID});
-  if(findDev == null){
-    yield collection.insert({'deviceID':deviceID,'setTime':new Date().getTime()});
+  if(findDev == null && userID != null && deviceID != null && deviceName != null){
+    yield collection.insert({'userID':userID,'deviceID':deviceID,'deviceName':deviceName,'setTime':new Date().getTime()});
     this.body = {
       message : "成功"
     }
@@ -178,22 +179,37 @@ function * sensorStatus(){
   var collection = db.collection('sensor');
   var sensorStatus = yield collection.find({userID:userID}).toArray();
   var data = new Array();
-  yield function(done){
-    for(var i=0 ; i<sensorStatus.length ; i++){
+  var device = new Array();
+  for(var i=0 ; i<sensorStatus.length ; i++){
+    device.push(sensorStatus[i].deviceID);
+  }
+  var result=device.filter(function(element, index, arr){
+    return arr.indexOf(element)=== index;
+  });
+  yield function * (){
+    for(key in result){
+      var collection = db.collection('sensor');
+      var handleData = yield collection.find({deviceID:result[key]}).toArray();
+      var dataAry = new Array();
+      for(sensor in handleData){
+        dataAry.push({
+          "containerPosition": handleData[sensor].containerPosition,
+          "containerName": handleData[sensor].containerName,
+          "brand": handleData[sensor].brand,
+          "percent": handleData[sensor].weight
+        })
+      }
+      var collectionDevice = db.collection('device');
+      var deviceData = yield collectionDevice.findOne({deviceID:result[key]});
       let sensorData = {
-        deviceID : sensorStatus[i].deviceID,
-        containerPosition : sensorStatus[i].containerPosition,
-        containerName : sensorStatus[i].containerName,
-        brand : sensorStatus[i].brand,
-        percent : sensorStatus[i].weight
+        "deviceID" : result[key],
+        "deviceName" : deviceData.deviceName,
+        "data":dataAry
       }
       data.push(sensorData);
     }
-    done();
   }
-  this.body = {
-    data : data
-  }
+  this.body = data
 }
 
 function * sensorUpdate(){
