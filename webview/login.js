@@ -77,12 +77,13 @@ var getApi = function getApi(done) {
             customerMsg[key] = customerOpinion[key]["customerMsg"];
             customerErr[key] = customerOpinion[key]["errMsg"];
             customerID[key] = customerOpinion[key]["userID"];
-            customerTime[key] = new Date(customerOpinion[key]["setTime"]);
+            customerTime[key] = new Date(customerOpinion[key]["setTime"]).toDateString();
+            feedbackNum[key] = key;
             // console.log(customerTime[key]);
             // console.log(customerMsg[key]);
             // console.log(customerErr[key]);
             // console.log(customerID[key]);
-            // console.log(customerTime[key]);
+            console.log(customerTime[key]);
         }
         done();
     });
@@ -97,6 +98,7 @@ var userName = new Array();
 var userAccount = new Array();
 var time = new Array();
 var tableNum = new Array();
+var feedbackNum = new Array();
 
 //show USER DATA FUNC
 var showUserInfo = function showUserInfo(done) {
@@ -131,7 +133,13 @@ router.get('/admin', function* () {
             "time": time,
             "num": tableNum,
             "brand": brandName,
-            "brandNum": num
+            "brandNum": num,
+            "feedbackMsg":customerMsg,
+            "feedbackErr":customerErr,
+            "feedbackUser":customerID,
+            "feedbackTime":customerTime,
+            "feedbackNum":feedbackNum
+
         });
     } else {
         this.redirect("/");
