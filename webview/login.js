@@ -83,7 +83,6 @@ var getApi = function getApi(done) {
             // console.log(customerMsg[key]);
             // console.log(customerErr[key]);
             // console.log(customerID[key]);
-            console.log(customerTime[key]);
         }
         done();
     });
@@ -99,7 +98,10 @@ var userAccount = new Array();
 var time = new Array();
 var tableNum = new Array();
 var feedbackNum = new Array();
-
+var devID = new Array();
+var devUser = new Array();
+var devTime = new Array();
+var devNum = new Array();
 //show USER DATA FUNC
 var showUserInfo = function showUserInfo(done) {
     var collection = db.collection('user');
@@ -117,6 +119,26 @@ var showUserInfo = function showUserInfo(done) {
         done();
     });
 };
+var showDevInfo = function showDevInfo(done) {
+    var collection = db.collection('sensorLog');
+    collection.find({}).sort({
+        setTime: -1
+    }).toArray(function (err, data) {
+        console.log(data);
+        for (var i = 0; i < data.length; i++) {
+            devID[i] = data[i].deviceID,
+            devUser[i] = data[i].userID,
+            devTime[i] = new Date(data[i].setTime).toDateString(),
+            // time[i] = new Date(data[i].setTime).toDateString(),
+            devNum[i] = i
+            console.log(devID[i]);
+            console.log(devUser[i]);
+            console.log(devTime[i]);
+        }
+       
+        done();
+    });
+};
 
 router.get('/', function* () {
     this.body = yield render("index");
@@ -125,6 +147,7 @@ router.get('/admin', function* () {
     if (this.session.user) {
         yield getApi;
         yield showUserInfo;
+        yield showDevInfo;
         this.body = yield render("admin", {
             // for html's var
             "userId": userId,
@@ -138,7 +161,11 @@ router.get('/admin', function* () {
             "feedbackErr":customerErr,
             "feedbackUser":customerID,
             "feedbackTime":customerTime,
-            "feedbackNum":feedbackNum
+            "feedbackNum":feedbackNum,
+            "devID":devID,
+            "devUser":devUser,
+            "devTime":devTime,
+            "devNum":devNum
 
         });
     } else {
