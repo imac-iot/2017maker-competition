@@ -47,14 +47,13 @@
   <ul class="nav nav-tabs" style="margin-top:5px;">
     <!--Hamburger Menu-->
     <li class="active"><a data-toggle="tab" href="#home">使用者管理</a></li>
+    <li><a data-toggle="tab" href="#dev">設備管理</a></li>
     <li><a data-toggle="tab" href="#feedbackErr">錯誤回報</a></li>
     <li><a data-toggle="tab" href="#feedback">意見反饋</a></li>
-    <li><a data-toggle="tab" href="#menu1">品牌資訊</a></li>
   </ul>
   <div class="tab-content">
     <div id="home" class="tab-pane fade in active">
       <br>
-    
       <table class="table table-hover  table-active">
         <thead>
             <tbody>
@@ -67,7 +66,7 @@
             </tr>
             {% for x in num %}
             <!-- num數量 -->
-            {% if loop %}{% endif %}
+            <!-- {% if loop %}{% endif %} -->
             <tr>
                 <td>{{ x+1 }}</td>
                 <td>{{ userName[num.length - x -1] }}</td>
@@ -96,12 +95,39 @@
                 <tr>
                     <td>{{ z }}</td>
                     <td>{{ feedbackUser[feedbackNum.length - z -1] }}</td>
-                    <td>{{ feedbackErr[feedbackNum.length - z -1] }}</td>
+                    <td style="color:#F38181">{{ feedbackErr[feedbackNum.length - z -1] }}</td>
                     <td>{{ feedbackTime[feedbackNum.length - z-1] }}</td>
                 </tr>
                 {% endfor %}
                 </tbody>
         </table>
+        </div>
+        <div id="dev" class="tab-pane fade">
+          <br>
+            <div class="row">
+              <div class="col-md-6">
+                <table class="table table-hover  table-active">
+                  <thead>
+                      <tbody>
+                      <tr>
+                          <th>User ID</th>
+                          <th>device ID</th>
+                      </tr>
+                      {% for u in feedbackNum %}
+                      <!-- num數量 -->
+                      <!-- {% if loop %}{% endif %} -->
+                      <tr>
+                          <td>{{ devID[feedbackNum.length - u -1] }}</td>
+                          <td>{{ devUser[feedbackNum.length - u -1] }}</td>
+                      </tr>
+                      {% endfor %}
+                      </tbody>
+              </table>
+              </div>
+                <div class="col-md-6 ">
+                  <canvas id="doughnut-chart" height="250"></canvas></div>
+              
+            </div>
         </div>
         <div id="feedback" class="tab-pane fade">
           <!-- <p>Sed ut perspiciatis unde omnis iste natus.</p> -->
@@ -128,15 +154,8 @@
                     </tbody>
             </table>
             </div>
-        <div id="menu1" class="tab-pane fade">
-            <div class="row">
-                <div class="col-md-6 "><canvas id="doughnut-chart" height="220"></canvas></div>
-            <div class="col-md-6 col-sm-12 col-xs-12"></div>
-      
-            </div>
-          </div>
+       
     </div>
-  </div>
 </div>
 </body>
 <script>
@@ -159,7 +178,7 @@
     options: {
       title: {
         display: true,
-        // text: 'Predicted world population (millions) in 2017'
+        text: '2017年度 品牌使用圖表'
       }
     }
   });
