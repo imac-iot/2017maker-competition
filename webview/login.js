@@ -51,7 +51,7 @@ var data = {
 }
 
 var getApi = function getApi(done) {
-    request.get('http://127.0.0.1:3000/popular', {
+    request.get('http://smart-factory.nutc-imac.com/popular', {
         form: data
     }, function optionalCallback(err, httpResponse, body) {
         if (err) {
@@ -65,7 +65,7 @@ var getApi = function getApi(done) {
         }
         done();
     });
-    request.get('http://127.0.0.1:3000/customer/opinion', {
+    request.get('http://smart-factory.nutc-imac.com/customer/opinion', {
         form: data
     }, function optionalCallback(err, httpResponse, body) {
         if (err) {

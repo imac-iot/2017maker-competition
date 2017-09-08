@@ -29,6 +29,35 @@
     td{
       color:#979797;
     }
+    .footer{
+      background-image: linear-gradient(to left, #fff 0%,#517fa4 20%, #517fa4 100%) ;
+      position: fixed;
+      bottom: 2%;
+      height: 50px;
+    }
+
+  @media (max-width:575px){
+      #doughnut-chart{
+        height: 50px;
+        }
+    }
+    @media(min-width:576px) and (max-width:767px){
+      #doughnut-chart{
+        height: 50px;
+        }
+    } 
+    /*md*/
+     @media(min-width:768px) and (max-width:991px){
+      #doughnut-chart{
+        height: 80px;
+        }
+    } 
+    /*lg*/
+     @media(min-width:992px) and (max-width:1199px){
+      #doughnut-chart{
+        height: 80px;
+        }
+    } 
   </style>
 </head>
 <body>
@@ -46,7 +75,7 @@
   </div>
   <ul class="nav nav-tabs" style="margin-top:5px;">
     <!--Hamburger Menu-->
-    <li class="active"><a data-toggle="tab" href="#home">使用者管理</a></li>
+    <li class="active"><a data-toggle="tab" href="#home">使用者</a></li>
     <li><a data-toggle="tab" href="#dev">設備管理</a></li>
     <li><a data-toggle="tab" href="#feedbackErr">錯誤回報</a></li>
     <li><a data-toggle="tab" href="#feedback">意見反饋</a></li>
@@ -59,16 +88,16 @@
             <tbody>
             <tr>
                 <th>#</th>
-                <th>name</th>
-                <th>account</th>
-                <th>userID</th>
-                <th>insertTime</th>
+                <th>姓名</th>
+                <th>Email</th>
+                <th>使用者ID</th>
+                <th>加入時間</th>
             </tr>
             {% for x in num %}
             <!-- num數量 -->
             <!-- {% if loop %}{% endif %} -->
             <tr>
-                <td>{{ x+1 }}</td>
+                <td>{{ x }}</td>
                 <td>{{ userName[num.length - x -1] }}</td>
                 <td>{{ userAccount[num.length - x-1] }}</td>
                 <td>{{ userId[num.length - x-1] }}</td>
@@ -85,17 +114,17 @@
                 <tbody>
                 <tr>
                     <th>#</th>
-                    <th>userID</th>
-                    <th>err feedback</th>
-                    <th>feedbackTime</th>
+                    <th>錯誤訊息</th>
+                    <th>反饋的使用者</th>
+                    <th>反饋時間</th>
                 </tr>
                 {% for z in feedbackNum %}
                 <!-- num數量 -->
                 {% if loop %}{% endif %}
                 <tr>
-                    <td>{{ z }}</td>
-                    <td>{{ feedbackUser[feedbackNum.length - z -1] }}</td>
+                    <td>{{z}}</td>
                     <td style="color:#F38181">{{ feedbackErr[feedbackNum.length - z -1] }}</td>
+                    <td>{{ feedbackUser[feedbackNum.length - z -1] }}</td>
                     <td>{{ feedbackTime[feedbackNum.length - z-1] }}</td>
                 </tr>
                 {% endfor %}
@@ -110,22 +139,23 @@
                   <thead>
                       <tbody>
                       <tr>
-                          <th>User ID</th>
                           <th>device ID</th>
+                          <th>擁有的使用者ID</th>
+                          
                       </tr>
                       {% for u in feedbackNum %}
                       <!-- num數量 -->
                       <!-- {% if loop %}{% endif %} -->
                       <tr>
                           <td>{{ devID[feedbackNum.length - u -1] }}</td>
-                          <td>{{ devUser[feedbackNum.length - u -1] }}</td>
+                          <td>{{ devUser[feedbackNum.length - u -1] }}</td>        
                       </tr>
                       {% endfor %}
                       </tbody>
               </table>
               </div>
-                <div class="col-md-6 ">
-                  <canvas id="doughnut-chart" height="250"></canvas></div>
+                <div class="col-md-5 col-sm-8 col-sm-offset-1 col-xs-12 ">
+                  <canvas id="doughnut-chart"></canvas></div>
               
             </div>
         </div>
@@ -137,17 +167,18 @@
                     <tbody>
                     <tr>
                         <th>#</th>
-                        <th>userID</th>
-                        <th>msg feedback</th>
-                        <th>feedbackTime</th>
+                        
+                        <th>反饋意見</th>
+                        <th>反饋的使用者</th>
+                        <th>反饋時間</th>
                     </tr>
                     {% for y in feedbackNum %}
                     <!-- num數量 -->
                     {% if loop %}{% endif %}
                     <tr>
                         <td>{{ y }}</td>
-                        <td>{{ feedbackUser[feedbackNum.length - y -1] }}</td>
-                        <td>{{ feedbackMsg[feedbackNum.length - y -1] }}</td>
+                        <td style="color:darkcyan">{{ feedbackMsg[feedbackNum.length - y -1] }}</td>
+                        <td >{{ feedbackUser[feedbackNum.length - y -1] }}</td>
                         <td>{{ feedbackTime[feedbackNum.length - y -1] }}</td>
                     </tr>
                     {% endfor %}
@@ -156,7 +187,17 @@
             </div>
        
     </div>
+    
+    <div class="row">
+        <div class="col-md-11 col-sm-12 col-xs-12 text-center footer" style="padding-right:100px">
+          <div class="col-md-offset-11 col-xs-offset-11 col-sm-offset-11">
+          <img  src="./IMAC@2x.png" style="height:25px;margin-top:12px" >
+        </div> 
+        </div>
+    
 </div>
+</div>
+
 </body>
 <script>
   // {{time}} = new Date({{time}}).toDateString();
@@ -183,5 +224,5 @@
     }
   });
   </script>
-
+  
 </html>
