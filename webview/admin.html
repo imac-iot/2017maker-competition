@@ -48,12 +48,13 @@
   <ul class="nav nav-tabs" style="margin-top:5px;">
     <!--Hamburger Menu-->
     <li class="active"><a data-toggle="tab" href="#home">使用者管理</a></li>
+    <li><a data-toggle="tab" href="#feedback">使用者反饋</a></li>
     <li><a data-toggle="tab" href="#menu1">品牌資訊</a></li>
-    <li><a data-toggle="tab" href="#menu2">反饋</a></li>
   </ul>
   <div class="tab-content">
     <div id="home" class="tab-pane fade in active">
       <br>
+    
       <table class="table table-hover  table-active">
         <thead>
             <tbody>
@@ -78,20 +79,47 @@
             </tbody>
     </table>
     </div>
-    <div id="menu1" class="tab-pane fade">
-      <div class="row">
-          <div class="col-md-6 "><canvas id="doughnut-chart" height="250"></canvas></div>
-      <div class="col-md-6 col-sm-12 col-xs-12"></div>
-
-      </div>
-    </div>
-    <div id="menu2" class="tab-pane fade">
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+    <div id="feedback" class="tab-pane fade">
+      <!-- <p>Sed ut perspiciatis unde omnis iste natus.</p> -->
+          <br>
+          <table class="table table-hover  table-active">
+            <thead>
+                <tbody>
+                <tr>
+                    <th>#</th>
+                    <th>userID</th>
+                    <th>msg feedback</th>
+                    <th>err feedback</th>
+                    <th>feedbackTime</th>
+                </tr>
+                {% for z in feedbackNum %}
+                <!-- num數量 -->
+                {% if loop %}{% endif %}
+                <tr>
+                    <td>{{ z }}</td>
+                    <td>{{ feedbackUser[feedbackNum.length - z -1] }}</td>
+                    <td>{{ feedbackMsg[feedbackNum.length - z -1] }}</td>
+                    <td>{{ feedbackErr[feedbackNum.length - z -1] }}</td>
+                    <td>{{ feedbackTime[feedbackNum.length - z-1] }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+        </table>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <div class="row">
+                <div class="col-md-6 "><canvas id="doughnut-chart" height="250"></canvas></div>
+            <div class="col-md-6 col-sm-12 col-xs-12"></div>
+      
+            </div>
+          </div>
     </div>
   </div>
 </div>
 </body>
 <script>
+
+  // {{time}} = new Date({{time}}).toDateString();
   var brand =["{{ brand.join('","') }}"];
   console.log(brand);
   // console.log('["'+brand.join('"22"')+'"]');
