@@ -23,15 +23,15 @@ app.use(session({
     signed: true, // (boolean) signed or not (default true) //
 }, app));
 
-var MongoClient = require('mongodb').MongoClient;
-var ObjectId = require('mongodb').ObjectID;
-var db;
-MongoClient.connect("mongodb://localhost:27017/apple", function (err, pDb) {
-    if (err) {
-        return console.dir(err);
-    }
-    db = pDb;
-});
+// var MongoClient = require('mongodb').MongoClient;
+// var ObjectId = require('mongodb').ObjectID;
+// var db;
+// MongoClient.connect("mongodb://localhost:27017/apple", function (err, pDb) {
+//     if (err) {
+//         return console.dir(err);
+//     }
+//     db = pDb;
+// });
 var render = views(__dirname, {
     map: {
         html: 'swig'
@@ -40,6 +40,19 @@ var render = views(__dirname, {
 app.use(bodyparser());
 
 // Api
+var login;
+var user;
+var userId = new Array();
+var userName = new Array();
+var userAccount = new Array();
+var userCreatTime = new Array();
+var tableNum = new Array();
+var feedbackNum = new Array();
+var devID = new Array();
+var devUser = new Array();
+var devTime = new Array();
+var devNum = new Array();
+
 var brandName = new Array();
 var num = new Array();
 var customerErr = new Array();
@@ -51,6 +64,25 @@ var data = {
 }
 
 var getApi = function getApi(done) {
+    request.get('http://smart-factory.nutc-imac.com/user/information', {
+        form: data
+    }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            return console.error(err);
+        }
+        console.log('body', body);
+        var userInfo = JSON.parse(body);
+        for (key in userInfo) {
+            userName[key] = userInfo[key]["userName"];
+            userId[key] = userInfo[key]["userID"];
+            userAccount[key] = userInfo[key]["account"];
+            userCreatTime[key] = new Date(userInfo[key]["setTime"]).toDateString();
+            tableNum[key] = key;
+        }
+        done();
+    });
+
+
     request.get('http://smart-factory.nutc-imac.com/popular', {
         form: data
     }, function optionalCallback(err, httpResponse, body) {
@@ -90,35 +122,24 @@ var getApi = function getApi(done) {
 
 
 // var define mongo showUser collections 
-var login;
-var user, pwd;
-var userId = new Array();
-var userName = new Array();
-var userAccount = new Array();
-var time = new Array();
-var tableNum = new Array();
-var feedbackNum = new Array();
-var devID = new Array();
-var devUser = new Array();
-var devTime = new Array();
-var devNum = new Array();
+
 //show USER DATA FUNC
-var showUserInfo = function showUserInfo(done) {
-    var collection = db.collection('user');
-    collection.find({}).sort({
-        setTime: -1
-    }).toArray(function (err, data) {
-        // console.log(data);
-        for (var i = 0; i < data.length; i++) {
-            userId[i] = data[i]._id.toString(),
-                userName[i] = data[i].userName,
-                userAccount[i] = data[i].account,
-                time[i] = new Date(data[i].setTime).toDateString(),
-                tableNum[i] = i;
-        }
-        done();
-    });
-};
+// var showUserInfo = function showUserInfo(done) {
+//     var collection = db.collection('user');
+//     collection.find({}).sort({
+//         setTime: -1
+//     }).toArray(function (err, data) {
+//         // console.log(data);
+//         for (var i = 0; i < data.length; i++) {
+//             userId[i] = data[i]._id.toString(),
+//                 userName[i] = data[i].userName,
+//                 userAccount[i] = data[i].account,
+//                 time[i] = new Date(data[i].setTime).toDateString(),
+//                 tableNum[i] = i;
+//         }
+//         done();
+//     });
+// };
 var showDevInfo = function showDevInfo(done) {
     var collection = db.collection('sensorLog');
     collection.find({}).sort({
@@ -146,14 +167,14 @@ router.get('/', function* () {
 router.get('/admin', function* () {
     if (this.session.user) {
         yield getApi;
-        yield showUserInfo;
-        yield showDevInfo;
+        // yield showUserInfo;
+        // yield showDevInfo;
         this.body = yield render("admin", {
             // for html's var
             "userId": userId,
             "userName": userName,
             "userAccount": userAccount,
-            "time": time,
+            "time": userCreatTime,
             "num": tableNum,
             "brand": brandName,
             "brandNum": num,

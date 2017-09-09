@@ -35,6 +35,13 @@
       bottom: 2%;
       height: 50px;
     }
+    td {
+    max-width: 400px;
+    overflow-y: hidden;
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis;
+    white-space: nowrap; */
+}
 
   @media (max-width:575px){
       #doughnut-chart{
@@ -135,7 +142,7 @@
           <br>
             <div class="row">
               <div class="col-md-6">
-                <table class="table table-hover  table-active">
+                <table class="table table-hover  table-active table-responsive">
                   <thead>
                       <tbody>
                       <tr>
@@ -162,12 +169,11 @@
         <div id="feedback" class="tab-pane fade">
           <!-- <p>Sed ut perspiciatis unde omnis iste natus.</p> -->
               <br>
-              <table class="table table-hover  table-active">
+              <table class="table table-hover  table-active table-responsive">
                 <thead>
                     <tbody>
                     <tr>
                         <th>#</th>
-                        
                         <th>反饋意見</th>
                         <th>反饋的使用者</th>
                         <th>反饋時間</th>
